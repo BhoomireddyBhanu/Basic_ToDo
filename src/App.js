@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React ,{useState}from'react';
+import TodoList from './TodoList';
+function App(){
+  const [task,setTask] = useState("");
+  const [todos,setTodos] = useState([]);
+  const changeHandler=(e)=>{
+    setTask(e.target.value);
+  }
+  const submitHandler=(e)=>{
+    e.preventDefault();
+     const newTodos=[...todos,task];
+     setTodos(newTodos);
+     setTask("");
+  }
+  const deleteHandler=(indexValue)=>{
+    const newTodos=todos.filter((todo,index)=>index !== indexValue);
+    setTodos(newTodos);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <div>
+      <h5>ToDo-ManagementSystem</h5>
+      <form onSubmit={submitHandler}>
+      <input type="text" placeholder="your to-do's goes here" value={task} onChange={changeHandler}></input>
+      <input type="submit"></input>
+      </form>
+      <TodoList todos={todos} deleteHandler={deleteHandler} />
     </div>
+    
   );
 }
 
